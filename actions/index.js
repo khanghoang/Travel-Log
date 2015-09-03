@@ -45,10 +45,11 @@ export function receiveLogin(data, err) {
 
 export function callLogin(username) {
   return dispatch => {
-    dispatch(requestPosts(reddit));
+    dispatch(requestLogin(username));
     return superagent
-    .post('http://www.reddit.com/r/${reddit}.json')
-    .send({user: username})
+    .post('https://young-beyond-8772.herokuapp.com/auth')
+    .type("form")
+    .send({name: username})
     .end((err, response) => {
       dispatch(receiveLogin(response.body, err))
     })

@@ -2,11 +2,12 @@ import 'babel-core/polyfill';
 import React from 'react';
 import { Provider } from 'react-redux';
 import MainPage from './containers/App';
+import LoginPage from './containers/LoginPage';
 import configureStore from './store/configureStore';
 
 const store = configureStore();
 
-var Router = require('react-router');
+import Router from 'react-router';
 import {RouteHandler, Route}  from 'react-router';
 
 
@@ -15,28 +16,10 @@ var App = React.createClass({
     return (
       <div>
         <h1>App</h1>
-        <RouteHandler/>
+        <Provider store={store}>
+        {() => <RouteHandler/>}
+        </Provider>
       </div>
-    )
-  }
-});
-
-var Login = React.createClass({
-  render () {
-    return (
-      <div>
-        <h1>Login Page</h1>
-      </div>
-    )
-  }
-});
-
-var MainPageHandler = React.createClass({
-  render () {
-    return (
-      <Provider store={store}>
-      {() => <MainPage />}
-      </Provider>
     )
   }
 });
@@ -44,8 +27,8 @@ var MainPageHandler = React.createClass({
 // declare our routes and their hierarchy
 var routes = (
   <Route handler={App}>
-    <Route path="/login" handler={Login}/>
-    <Route path="/main_page" handler={MainPageHandler}/>
+    <Route path="/login" handler={LoginPage}/>
+    <Route path="/main_page" handler={MainPage}/>
   </Route>
 );
 
