@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
 import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
-  REQUEST_POSTS, RECEIVE_POSTS
+  REQUEST_POSTS, RECEIVE_POSTS,
+  REQUEST_LOGIN, RECEIVE_LOGIN
 } from '../actions';
+
+import {cookie} from '../helpers/utils';
 
 function selectedReddit(state = 'reactjs', action) {
   switch (action.type) {
@@ -13,11 +16,7 @@ function selectedReddit(state = 'reactjs', action) {
   }
 }
 
-function posts(state = {
-  isFetching: false,
-  didInvalidate: false,
-  items: []
-}, action) {
+function posts(state = {}, action) {
   switch (action.type) {
   case INVALIDATE_REDDIT:
     return Object.assign({}, state, {
@@ -53,9 +52,25 @@ function postsByReddit(state = { }, action) {
   }
 }
 
+function currentUser(state = JSON.parse(cookie.get("DATA")), action) {
+  switch (action.type) {
+    case REQUEST_LOGIN: {
+      return Object.assign({}, state);
+    }
+    case RECEIVE_LOGIN: {
+      const data = Object.assign({}, state, action.data);
+      cookie.set("DATA", JSON.stringify(data));
+      return data;
+    }
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   postsByReddit,
-  selectedReddit
+  selectedReddit,
+  currentUser
 });
 
 export default rootReducer;
