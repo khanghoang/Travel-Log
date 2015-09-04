@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {callLogin} from '../actions';
+import {loginIfNeeded} from '../actions';
+import {Navigation} from 'react-router';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -10,13 +11,23 @@ class LoginPage extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+
+    debugger;
+
+    // if user already login, redirect to MainPage
+    if(this.props.token) {
+      this.context.router.transitionTo('MainPage');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    if(nextProps.token) {
+      this.context.router.transitionTo('MainPage');
+    }
   }
 
   handleLogin(username) {
-    this.props.dispatch(callLogin(username));
+    this.props.dispatch(loginIfNeeded(username));
   }
 
   handleLoginClick(e) {
@@ -42,5 +53,19 @@ LoginPage.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-export default connect()(LoginPage);
+LoginPage.contextTypes = {
+    router: React.PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  let { currentUser } = state;
+  currentUser = currentUser || {};
+  const token = currentUser.token;
+  return {
+    currentUser,
+    token
+  };
+}
+
+export default connect(mapStateToProps)(LoginPage);
 
