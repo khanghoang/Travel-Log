@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import superagent from 'superagent';
+import _ from 'lodash';
 
 export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -7,7 +8,7 @@ export const SELECT_REDDIT = 'SELECT_REDDIT';
 export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT';
 
 export const REQUEST_LOGIN = "REQUEST_LOGIN";
-export const RECEIVE_LOGIN = "REQUEST_LOGIN";
+export const RECEIVE_LOGIN = "RECEIVE_LOGIN";
 
 export const REQUEST_TRAVELLERS = "REQUEST_TRAVELLERS";
 export const RECEIVE_TRAVELLERS = "RECEIVE_TRAVELLERS"
@@ -22,7 +23,7 @@ export const RECEIVE_PATCH_DESTINATIONS = "RECEIVE_PATCH_DESTINATIONS"
  * @param username
  * @return {Object}
  */
-export function requestLogin(username) {
+function requestLogin(username) {
   return {
     type: REQUEST_LOGIN,
     username
@@ -36,14 +37,14 @@ export function requestLogin(username) {
  * @param data
  * @return {Object}
  */
-export function receiveLogin(data, err) {
+function receiveLogin(data, err) {
   return {
     type: RECEIVE_LOGIN,
     data: data
   }
 }
 
-export function callLogin(username) {
+function callLogin(username) {
   return dispatch => {
     dispatch(requestLogin(username));
     return superagent
@@ -53,6 +54,22 @@ export function callLogin(username) {
     .end((err, response) => {
       dispatch(receiveLogin(response.body, err))
     })
+  };
+}
+
+function shouldCallLogin(state, username) {
+  if(!_.get(state, "currentUser.token")) {
+    return true;
+  }
+
+  return false;
+}
+
+export function loginIfNeeded(username) {
+  return (dispatch, getState) => {
+    if (shouldCallLogin(getState(), username)) {
+      return dispatch(callLogin(username));
+    }
   };
 }
 
