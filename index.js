@@ -27,8 +27,8 @@ var App = React.createClass({
 // declare our routes and their hierarchy
 var routes = (
   <Route handler={App}>
-    <Route path="/login" handler={LoginPage}/>
-    <Route path="/main_page" handler={MainPage}/>
+    <Route name="Login" path="/login" handler={LoginPage}/>
+    <Route name="MainPage" path="/main_page" handler={MainPage}/>
   </Route>
 );
 
