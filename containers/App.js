@@ -36,9 +36,10 @@ class App extends Component {
   }
 
   render() {
-    const { selectedReddit, posts, isFetching, lastUpdated } = this.props;
+    const { currentUser, selectedReddit, posts, isFetching, lastUpdated } = this.props;
     return (
       <div>
+        <h2>Hi {currentUser.name}</h2>
         <Picker value={selectedReddit}
                 onChange={this.handleChange}
                 options={['reactjs', 'frontend']} />
@@ -82,6 +83,8 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { selectedReddit, postsByReddit } = state;
+  let { currentUser } = state;
+  currentUser = currentUser || {};
   const {
     isFetching,
     lastUpdated,
@@ -95,7 +98,8 @@ function mapStateToProps(state) {
     selectedReddit,
     posts,
     isFetching,
-    lastUpdated
+    lastUpdated,
+    currentUser
   };
 }
 
