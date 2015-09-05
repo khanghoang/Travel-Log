@@ -3,28 +3,36 @@ import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import _ from "lodash";
 import DestinationListItem from '../components/DestinationListItem';
 
+require("./UserDestinationPanel.less");
+
 export default class UserDestinationPanel extends Component {
 
-  onDestinationChange() {
-    return function(destinationID) {
-      console.log(destinationID);
-    }
+  setLoadingStateForCurrentUserPanel(userID) {
+    const {isLoading, currentUser} = this.props;
+    const classLoading = isLoading && userID === currentUser.id ? "isLoading" : "";
+    return classLoading;
+  }
+
+  setDisableForTheRestTravelers(userID) {
+    const { isLoading, currentUser } = this.props;
+    const classDisable = userID !== currentUser.id || isLoading ? "disabled" : "";
+    return classDisable;
   }
 
   render() {
+    const {...other} = this.props;
+    const data = _.get(this.props, "destinations.data") || [];
 
-    var data = _.get(this.props, "destinations.data") || [];
-
-    var panels =
+    const panels =
       _.map(data, (user, i) =>
-      <Panel key={i} collapsible header={user.name}>
+      <Panel key={i} collapsible header={user.name} className={this.setLoadingStateForCurrentUserPanel(user.id)}>
       <ListGroup fill>
       {user.destinations.map((des, y) =>
         <DestinationListItem 
         key={y}
         destination={des}
-        onDestinationCheckVisited={this.onDestinationChange()}
-        onDestinationDelete={this.onDestinationChange()}
+        {...other}
+        disabled={this.setDisableForTheRestTravelers(user.id)}
         />
       )}
       </ListGroup>

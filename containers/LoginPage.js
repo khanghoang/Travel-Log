@@ -75,8 +75,8 @@ LoginPage.contextTypes = {
 
 function mapStateToProps(state) {
   let { currentUser } = state;
-  let { isLoading, errorMessage } = currentUser;
   currentUser = currentUser || {};
+  let { isLoading, errorMessage } = currentUser;
   const token = currentUser.token;
   return {
     currentUser,

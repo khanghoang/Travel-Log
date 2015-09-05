@@ -3,7 +3,9 @@ import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
   REQUEST_POSTS, RECEIVE_POSTS,
   REQUEST_LOGIN, RECEIVE_LOGIN,
-  REQUEST_TRAVELLERS, RECEIVE_TRAVELLERS
+  REQUEST_TRAVELLERS, RECEIVE_TRAVELLERS,
+  REQUEST_PATCH_DESTINATIONS, RECEIVE_PATCH_DESTINATIONS,
+  LOGOUT
 } from '../actions';
 
 import {cookie} from '../helpers/utils';
@@ -65,6 +67,24 @@ function travelers(state = [], action) {
       return Object.assign({}, state, {
       isLoading: true
     })
+    case RECEIVE_PATCH_DESTINATIONS: {
+      var data = _.chain(state.data)
+      .map(function(user) {
+        if(user.id === action.data.id) {
+          user.destinations = action.data.destinations;
+        }
+        return user;
+      })
+      .value();
+      return Object.assign({}, state, {
+      isLoading: false
+      }, data)
+    }
+    case REQUEST_PATCH_DESTINATIONS: {
+      return Object.assign({}, state, {
+      isLoading: true
+    })
+    }
     break;
     default:
       return state;
@@ -97,6 +117,14 @@ function currentUser(state = JSON.parse(cookie.get("DATA")), action) {
       cookie.set("DATA", JSON.stringify(data));
       return data;
     }
+
+    case LOGOUT: {
+      // erase current user
+      let data = null;
+      cookie.set("DATA", data);
+      return {};
+    }
+
     default:
       return state;
   }

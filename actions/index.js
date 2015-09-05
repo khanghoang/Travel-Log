@@ -16,6 +16,8 @@ export const RECEIVE_TRAVELLERS = "RECEIVE_TRAVELLERS"
 export const REQUEST_PATCH_DESTINATIONS = "REQUEST_PATCH_DESTINATIONS";
 export const RECEIVE_PATCH_DESTINATIONS = "RECEIVE_PATCH_DESTINATIONS"
 
+export const LOGOUT = "LOGOUT"
+
 /**
  * requestLogin
  *
@@ -139,6 +141,46 @@ export function fetchTravellers(token) {
       dispatch(receiveTravellers(data, err))
     })
   };
+}
+
+
+function requestPatchDestinations() {
+  return {
+    type: REQUEST_PATCH_DESTINATIONS
+  }
+}
+
+function receivePatchDestinations(data, err) {
+  return {
+    type: RECEIVE_PATCH_DESTINATIONS,
+    data: data,
+    err: err
+  }
+}
+
+export function callPatchDestinations(token, id, destinations) {
+  return dispatch => {
+    dispatch(requestTravellers());
+    return superagent
+    .patch('https://young-beyond-8772.herokuapp.com/travelers/' + id)
+    .set({Authorization: "Token token=" + token})
+    .send({destinations: destinations})
+    .end((err, response) => {
+      var data = response.body;
+      data.destinations = _.map(data.destinations, function(des) {
+        des._id = _makeid();
+        return des;
+      })
+      dispatch(receivePatchDestinations(data, err))
+    })
+  }
+}
+
+
+export function logout() {
+  return {
+    type: LOGOUT
+  }
 }
 
 /**

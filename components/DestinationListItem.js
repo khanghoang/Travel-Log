@@ -5,23 +5,26 @@ require('./DestinationListItem.less');
 
 export default class UserDestinationPanel extends ListGroupItem {
   onCheckVisited() {
-    this.props.onDestinationCheckVisited(this.props.destination._id);
+    this.props.onCheckVisited(this.props.destination._id);
   }
 
-  onCheckDelete() {
+  onDestinationDelete() {
     this.props.onDestinationDelete(this.props.destination._id);
   }
 
   render() {
-      const destinationsClass = this.props.destination.visited ? "strike" : "";
-      const buttonDelete = <Button className="destinations-delete-button" bsSize='xsmall' onClick={this.onCheckDelete.bind(this)}>Delete</Button>;
-      return (
-        <div>
-        <input type='checkbox' onChange={this.onCheckVisited.bind(this)}>
-        </input>
-        <span className={destinationsClass}>{this.props.destination.name}</span>
-        {buttonDelete}
-        </div>
-      );
+    const {disabled} = this.props;
+    const destinationsClass = this.props.destination.visited ? "strike" : "";
+    const buttonDelete = <Button disabled={disabled} className="destinations-delete-button" bsSize='xsmall' onClick={this.onDestinationDelete.bind(this)}>Delete</Button>;
+    const checked = this.props.destination.visited ? "checked" : "";
+
+    return (
+      <div>
+      <input type='checkbox' disabled={disabled} checked={checked} onChange={this.onCheckVisited.bind(this)}>
+      </input>
+      <span className={destinationsClass}>{this.props.destination.name}</span>
+      {buttonDelete}
+      </div>
+    );
   }
 }
