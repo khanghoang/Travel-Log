@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from '../actions';
 import Picker from '../components/Picker';
 import Posts from '../components/Posts';
+import UserDestinationPanel from '../components/UserDestinationPanel';
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +27,9 @@ class App extends Component {
     return (
       <div>
         <h2>Hi {currentUser.name}</h2>
+        <UserDestinationPanel
+        destinations=""
+        />
       </div>
     );
   }
