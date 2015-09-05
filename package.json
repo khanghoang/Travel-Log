@@ -26,13 +26,26 @@
   },
   "homepage": "http://rackt.github.io/redux",
   "dependencies": {
+    "babel-loader": "node_modules/babel-loader",
+    "bootstrap": "^3.3.5",
+    "bootstrap-webpack": "0.0.3",
+    "css-loader": "^0.17.0",
+    "file-loader": "^0.8.4",
+    "imports-loader": "^0.6.4",
     "isomorphic-fetch": "^2.1.1",
+    "jquery": "^2.1.4",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
     "react": "^0.13.3",
+    "react-bootstrap": "^0.25.1",
+    "react-hot-loader": "node_modules/react-hot-loader",
     "react-redux": "^1.0.1",
     "redux": "^1.0.1",
     "redux-logger": "0.0.3",
     "redux-thunk": "^0.1.0",
-    "superagent": "^1.3.0"
+    "style-loader": "^0.12.3",
+    "superagent": "^1.3.0",
+    "url-loader": "^0.5.6"
   },
   "devDependencies": {
     "babel-core": "^5.6.18",

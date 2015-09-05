@@ -4,8 +4,13 @@ import { Provider } from 'react-redux';
 import MainPage from './containers/App';
 import LoginPage from './containers/LoginPage';
 import configureStore from './store/configureStore';
+require("bootstrap-webpack");
 
 const store = configureStore();
+
+if (process.env.BROWSER) {
+    require('./index.scss');
+}
 
 import Router from 'react-router';
 import {RouteHandler, Route}  from 'react-router';
@@ -14,7 +19,7 @@ import {RouteHandler, Route}  from 'react-router';
 var App = React.createClass({
   render () {
     return (
-      <div>
+      <div className="container">
         <h1>App</h1>
         <Provider store={store}>
         {() => <RouteHandler/>}

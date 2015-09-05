@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {loginIfNeeded} from '../actions';
 import {Navigation} from 'react-router';
+import {Input, Button} from 'react-bootstrap';
+
+require('./LoginPage.less');
 
 class LoginPage extends Component {
   constructor(props) {
@@ -11,8 +14,6 @@ class LoginPage extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-
-    debugger;
 
     // if user already login, redirect to MainPage
     if(this.props.token) {
@@ -38,13 +39,17 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Login</h1>
-        <form action="" method="POST">
-          <input type="text"></input>
-          <input type="submit" onClick={this.handleLoginClick.bind(this)}></input>
-        </form>
-      </div>
+      <form className="form-signin">
+        <h2 className="form-signin-heading">Please sign in</h2>
+          <label for="inputUsername" class="sr-only">Username</label>
+          <Input
+          type="text"
+          placeholder="Enter your name"
+          ref="input"
+          labelClassName='label-class'
+          />
+          <button className="btn btn-primary btn-block" type="submit" onClick={this.handleLoginClick.bind(this)}>Sign in</button>
+      </form>
     );
   }
 }
