@@ -40,7 +40,8 @@ function requestLogin(username) {
 function receiveLogin(data, err) {
   return {
     type: RECEIVE_LOGIN,
-    data: data
+    data: data,
+    err: err
   }
 }
 

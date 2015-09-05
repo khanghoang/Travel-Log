@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {loginIfNeeded} from '../actions';
 import {Navigation} from 'react-router';
-import {Input, Button} from 'react-bootstrap';
+import {Input, Button, Label} from 'react-bootstrap';
+var React = require('react');
+import { Component, PropTypes } from 'react';
 
 require('./LoginPage.less');
 
@@ -33,11 +34,12 @@ class LoginPage extends Component {
 
   handleLoginClick(e) {
     e.preventDefault();
-    let username = "evie";
+    let username = React.findDOMNode(this.refs.inputUsername).getElementsByTagName("input")[0].value;
     this.handleLogin(username);
   }
 
   render() {
+    const { isLoading, errorMessage } = this.props;
     return (
       <form className="form-signin">
         <h2 className="form-signin-heading">Please sign in</h2>
@@ -45,10 +47,19 @@ class LoginPage extends Component {
           <Input
           type="text"
           placeholder="Enter your name"
-          ref="input"
+          ref="inputUsername"
           labelClassName='label-class'
           />
-          <button className="btn btn-primary btn-block" type="submit" onClick={this.handleLoginClick.bind(this)}>Sign in</button>
+          <Button
+          bsStyle='primary'
+          disabled={isLoading}
+          onClick={!isLoading ? this.handleLoginClick.bind(this) : null}>
+          {isLoading ? 'Logging in...' : 'Login'}
+          </Button>
+          <br/>
+          <Label bsStyle="danger">
+          {errorMessage ? errorMessage : ""}
+          </Label>
       </form>
     );
   }
@@ -64,11 +75,14 @@ LoginPage.contextTypes = {
 
 function mapStateToProps(state) {
   let { currentUser } = state;
+  let { isLoading, errorMessage } = currentUser;
   currentUser = currentUser || {};
   const token = currentUser.token;
   return {
     currentUser,
-    token
+    token,
+    isLoading,
+    errorMessage
   };
 }
 

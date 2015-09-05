@@ -20,7 +20,6 @@ var App = React.createClass({
   render () {
     return (
       <div className="container">
-        <h1>App</h1>
         <Provider store={store}>
         {() => <RouteHandler/>}
         </Provider>

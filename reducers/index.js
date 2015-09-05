@@ -55,10 +55,27 @@ function postsByReddit(state = { }, action) {
 function currentUser(state = JSON.parse(cookie.get("DATA")), action) {
   switch (action.type) {
     case REQUEST_LOGIN: {
-      return Object.assign({}, state);
+      return Object.assign({}, state, {
+        isLoading: true
+      });
     }
     case RECEIVE_LOGIN: {
-      const data = Object.assign({}, state, action.data);
+
+      // if error when loading, show it
+      if(action.err) {
+        const data = Object.assign({}, state, {
+          errorMessage: action.err.toString(),
+          isLoading: false
+        });
+        return data;
+      }
+
+      // if success, process to main page
+      const data = Object.assign({}, state, action.data, {
+        isLoading: false
+      });
+
+      // save current user
       cookie.set("DATA", JSON.stringify(data));
       return data;
     }
