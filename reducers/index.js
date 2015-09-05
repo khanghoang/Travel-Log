@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
   REQUEST_POSTS, RECEIVE_POSTS,
-  REQUEST_LOGIN, RECEIVE_LOGIN
+  REQUEST_LOGIN, RECEIVE_LOGIN,
+  REQUEST_TRAVELLERS, RECEIVE_TRAVELLERS
 } from '../actions';
 
 import {cookie} from '../helpers/utils';
@@ -52,6 +53,23 @@ function postsByReddit(state = { }, action) {
   }
 }
 
+function travelers(state = [], action) {
+  switch (action.type) {
+    case RECEIVE_TRAVELLERS:
+      return Object.assign({}, state, {
+      isLoading: false,
+      data: action.data
+    })
+      break;
+    case REQUEST_TRAVELLERS:
+      return Object.assign({}, state, {
+      isLoading: true
+    })
+    break;
+    default:
+      return state;
+  }
+}
 function currentUser(state = JSON.parse(cookie.get("DATA")), action) {
   switch (action.type) {
     case REQUEST_LOGIN: {
@@ -87,7 +105,8 @@ function currentUser(state = JSON.parse(cookie.get("DATA")), action) {
 const rootReducer = combineReducers({
   postsByReddit,
   selectedReddit,
-  currentUser
+  currentUser,
+  travelers
 });
 
 export default rootReducer;

@@ -45,6 +45,11 @@ function receiveLogin(data, err) {
   }
 }
 
+/**
+ * _makeid
+ *
+ * @return {undefined}
+ */
 function _makeid()
 {
     var text = "";
@@ -54,6 +59,12 @@ function _makeid()
     return text;
 }
 
+/**
+ * callLogin
+ *
+ * @param username
+ * @return {undefined}
+ */
 function callLogin(username) {
   return dispatch => {
     dispatch(requestLogin(username));
@@ -67,6 +78,13 @@ function callLogin(username) {
   };
 }
 
+/**
+ * shouldCallLogin
+ *
+ * @param state
+ * @param username
+ * @return {undefined}
+ */
 function shouldCallLogin(state, username) {
   if(!_.get(state, "currentUser.token")) {
     return true;
@@ -75,11 +93,51 @@ function shouldCallLogin(state, username) {
   return false;
 }
 
+/**
+ * loginIfNeeded
+ *
+ * @param username
+ * @return {undefined}
+ */
 export function loginIfNeeded(username) {
   return (dispatch, getState) => {
     if (shouldCallLogin(getState(), username)) {
       return dispatch(callLogin(username));
     }
+  };
+}
+
+function requestTravellers() {
+  return {
+    type: REQUEST_TRAVELLERS
+  }
+}
+
+function receiveTravellers(data, err) {
+  return {
+    type: RECEIVE_TRAVELLERS,
+    data: data,
+    err: err
+  }
+}
+
+export function fetchTravellers(token) {
+  return dispatch => {
+    dispatch(requestTravellers());
+    return superagent
+    .get('https://young-beyond-8772.herokuapp.com/travelers')
+    .set({Authorization: "Token token=" + token})
+    .end((err, response) => {
+      var data = response.body;
+      data = _.map(data, function(user) {
+        user.destinations = _.map(user.destinations, function(des) {
+          des._id = _makeid();
+          return des;
+        })
+        return user;
+      })
+      dispatch(receiveTravellers(data, err))
+    })
   };
 }
 

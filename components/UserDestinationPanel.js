@@ -6,58 +6,25 @@ import DestinationListItem from '../components/DestinationListItem';
 export default class UserDestinationPanel extends Component {
 
   onDestinationChange() {
-    return function() {
-      console.log('aaaa');
+    return function(destinationID) {
+      console.log(destinationID);
     }
   }
 
   render() {
-    const testData = [
-      {
-        username: "evie",
-        destinations: [
-          {
-            name: "Saigon",
-            visited: true
-          },
-          {
-            name: "Saigon",
-            visited: true
-          },
-          {
-            name: "Saigon",
-            visited: false
-          }
-        ]
-      },
-      {
-        username: "khang",
-        destinations: [
-          {
-            name: "Saigon",
-            visited: true
-          },
-          {
-            name: "Saigon",
-            visited: true
-          },
-          {
-            name: "Saigon",
-            visited: false
-          }
-        ]
-      },
-    ];
+
+    var data = _.get(this.props, "destinations.data") || [];
 
     var panels =
-      _.map(testData, (user, i) =>
-      <Panel key={i} collapsible header={user.username}>
+      _.map(data, (user, i) =>
+      <Panel key={i} collapsible header={user.name}>
       <ListGroup fill>
       {user.destinations.map((des, y) =>
         <DestinationListItem 
         key={y}
         destination={des}
-        onDestinationChange={this.onDestinationChange()}
+        onDestinationCheckVisited={this.onDestinationChange()}
+        onDestinationDelete={this.onDestinationChange()}
         />
       )}
       </ListGroup>
