@@ -6,6 +6,7 @@ import Posts from '../components/Posts';
 import UserDestinationPanel from '../components/UserDestinationPanel';
 import {Button} from 'react-bootstrap';
 import {cookie} from '../helpers/utils';
+import AutoCompleteCountry from './AutoCompleteCountry';
 
 class App extends Component {
   constructor(props) {
@@ -97,6 +98,7 @@ class App extends Component {
         isLoading={isLoading}
         currentUser={currentUser}
         />
+        <AutoCompleteCountry />
       </div>
     );
   }
