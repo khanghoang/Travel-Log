@@ -11,5 +11,19 @@
     <div id="root">
     </div>
     <script src="/static/bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $(".add-destination").prop("disabled", true)
+        $(".geosuggest__input").bind("change paste keyup", function(e) {
+          var value = e.currentTarget.value;
+          if(value.trim() === "") {
+            $(".add-destination").prop("disabled", true)
+          } else {
+            $(".add-destination").prop("disabled", false)
+          }
+        })
+      });
+    </script>
   </body>
 </html>
