@@ -19,6 +19,12 @@ export default class UserDestinationPanel extends Component {
     return classDisable;
   }
 
+  setDisplayError(userID) {
+    const { currentUser, isError } = this.props;
+    const shouldShow = userID === currentUser.id && isError ? "" : "hide";
+    return shouldShow;
+  }
+
   render() {
     const {...other} = this.props;
     const data = _.get(this.props, "destinations.data") || [];
@@ -35,6 +41,7 @@ export default class UserDestinationPanel extends Component {
         disabled={this.setDisableForTheRestTravelers(user.id)}
         />
       )}
+      <div className={"list-group-item-danger delete-error " + this.setDisplayError(user.id)}>Oops, there was error when editing destinations, should we do that again?</div>
       </ListGroup>
       </Panel>
       )

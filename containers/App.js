@@ -39,7 +39,6 @@ class App extends Component {
     var self = this;
     const {currentUser, travelers, dispatch} = self.props;
     return function(destinationID) {
-      console.log(destinationID);
       const id = currentUser.id;
       const token = currentUser.token;
       let destinations = _.chain(travelers.data)
@@ -96,10 +95,11 @@ class App extends Component {
     .value().destinations;
     destinations.push({name: destinationName})
     dispatch(callPatchDestinations(token, id, destinations));
+    self.refs.destinationInput.refs.geosuggest.clear();
   }
 
   render() {
-    const { currentUser, travelers, isLoading} = this.props;
+    const { currentUser, travelers, isLoading, isError} = this.props;
     return (
       <div className="main-page">
         <h2>Hi {currentUser.name}
@@ -114,6 +114,7 @@ class App extends Component {
         onDestinationDelete={this.onDestinationDelete()}
         isLoading={isLoading}
         currentUser={currentUser}
+        isError={isError}
         />
         <Button
         disabled={isLoading}
@@ -140,12 +141,14 @@ App.contextTypes = {
 function mapStateToProps(state) {
   let { currentUser, travelers } = state;
   const isLoading = travelers.isLoading;
+  const isError = travelers.isError;
   currentUser = currentUser || {};
 
   return {
     currentUser,
     travelers,
-    isLoading
+    isLoading,
+    isError
   };
 }
 

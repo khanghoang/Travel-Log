@@ -77,7 +77,8 @@ function travelers(state = [], action) {
       })
       .value();
       return Object.assign({}, state, {
-      isLoading: false
+      isLoading: false,
+      isError: action.err
       }, data)
     }
     case REQUEST_PATCH_DESTINATIONS: {
