@@ -21,7 +21,7 @@ export default class AutoCompleteCountry extends Component {
     return (
       <div className="auto-complete-country">
       <Geosuggest
-      placeholder="Start typing!"
+      placeholder="Enter city name"
       types={types}
       ref="geosuggest"
       onBlur={this.onBlur}
