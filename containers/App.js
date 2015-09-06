@@ -28,6 +28,11 @@ class App extends Component {
   componentDidMount() {
     const { currentUser, dispatch } = this.props;
     this.retrictUser(this.props);
+    this.refreshTravelers();
+  }
+
+  refreshTravelers() {
+    const { currentUser, dispatch } = this.props;
     dispatch(fetchTravellers(currentUser.token));
   }
 
@@ -99,15 +104,16 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, travelers, isLoading, isError} = this.props;
-    return (
-      <div className="main-page">
-        <h2>Hi {currentUser.name}
-        <Button
-        onClick={this.logout.bind(this)}
-        className="logout-button"
-        >Logout</Button>
-        </h2>
+    const { currentUser, travelers, isLoading, isError, isErrorFetchingTravelers} = this.props;
+
+    const loadingDiv = (
+      <div className={isLoading ? "" : "hide"}>
+      <h3>Loading...</h3>
+      </div>
+    )
+
+    const mainDiv = (
+        <div className={isErrorFetchingTravelers || isLoading ? "hide" : ""}>
         <UserDestinationPanel
         destinations={travelers}
         onCheckVisited={this.onCheckVisited()}
@@ -125,6 +131,31 @@ class App extends Component {
         <AutoCompleteCountry
         ref="destinationInput"
         />
+        </div>
+    )
+
+    const errorDiv = (
+        <div className={isErrorFetchingTravelers ? "" : "hide"}>
+        There was error when loading travelers information, please
+        <Button
+        onClick={this.refreshTravelers.bind(this)}
+        >
+        Refresh
+        </Button>
+        </div>
+    )
+
+    return (
+      <div className="main-page">
+        <h2>Hi {currentUser.name}
+        <Button
+        onClick={this.logout.bind(this)}
+        className="logout-button"
+        >Logout</Button>
+        </h2>
+        {loadingDiv}
+        {mainDiv}
+        {errorDiv}
       </div>
     );
   }
@@ -142,13 +173,15 @@ function mapStateToProps(state) {
   let { currentUser, travelers } = state;
   const isLoading = travelers.isLoading;
   const isError = travelers.isError;
+  const isErrorFetchingTravelers = travelers.isErrorFetchingTravelers;
   currentUser = currentUser || {};
 
   return {
     currentUser,
     travelers,
     isLoading,
-    isError
+    isError,
+    isErrorFetchingTravelers
   };
 }
 
