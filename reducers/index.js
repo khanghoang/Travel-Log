@@ -31,13 +31,13 @@ function travelers(state = [], action) {
       })
       .value();
       return Object.assign({}, state, {
-      isLoading: false,
+      isCallPatchingDestination: false,
       isError: action.err
       }, data)
     }
     case REQUEST_PATCH_DESTINATIONS: {
       return Object.assign({}, state, {
-      isLoading: true
+      isCallPatchingDestination: true
     })
     }
     break;

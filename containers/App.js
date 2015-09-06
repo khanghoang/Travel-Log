@@ -104,7 +104,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, travelers, isLoading, isError, isErrorFetchingTravelers} = this.props;
+    const { isCallPatchingDestination, currentUser, travelers, isLoading, isError, isErrorFetchingTravelers} = this.props;
 
     const loadingDiv = (
       <div className={isLoading ? "" : "hide"}>
@@ -118,15 +118,16 @@ class App extends Component {
         destinations={travelers}
         onCheckVisited={this.onCheckVisited()}
         onDestinationDelete={this.onDestinationDelete()}
-        isLoading={isLoading}
+        isLoading={isCallPatchingDestination}
         currentUser={currentUser}
         isError={isError}
         />
         <Button
-        disabled={isLoading}
+        disabled={isCallPatchingDestination}
         className="add-destination"
-        onClick={!isLoading ? this.onAddDestination.bind(this) : null}>
-        {isLoading ? 'Process' : 'Add'}
+        ref="addbutton"
+        onClick={!isCallPatchingDestination ? this.onAddDestination.bind(this) : null}>
+        {isCallPatchingDestination ? 'Process' : 'Add'}
         </Button>
         <AutoCompleteCountry
         ref="destinationInput"
@@ -172,6 +173,7 @@ App.contextTypes = {
 function mapStateToProps(state) {
   let { currentUser, travelers } = state;
   const isLoading = travelers.isLoading;
+  const isCallPatchingDestination = travelers.isCallPatchingDestination;
   const isError = travelers.isError;
   const isErrorFetchingTravelers = travelers.isErrorFetchingTravelers;
   currentUser = currentUser || {};
@@ -180,6 +182,7 @@ function mapStateToProps(state) {
     currentUser,
     travelers,
     isLoading,
+    isCallPatchingDestination,
     isError,
     isErrorFetchingTravelers
   };
