@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchTravellers, callPatchDestinations, logout } from '../actions';
-import Picker from '../components/Picker';
-import Posts from '../components/Posts';
 import UserDestinationPanel from '../components/UserDestinationPanel';
 import {Button} from 'react-bootstrap';
 import {cookie} from '../helpers/utils';
-import AutoCompleteCountry from './AutoCompleteCountry';
+import AutoCompleteCountry from '../components/AutoCompleteCountry';
+
+require("!style!css!less!./App.less");
 
 class App extends Component {
   constructor(props) {
@@ -101,10 +101,11 @@ class App extends Component {
   render() {
     const { currentUser, travelers, isLoading} = this.props;
     return (
-      <div>
+      <div className="main-page">
         <h2>Hi {currentUser.name}
         <Button
         onClick={this.logout.bind(this)}
+        className="logout-button"
         >Logout</Button>
         </h2>
         <UserDestinationPanel
