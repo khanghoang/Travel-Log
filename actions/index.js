@@ -154,7 +154,7 @@ function receivePatchDestinations(data, err) {
 
 export function callPatchDestinations(token, id, destinations) {
   return dispatch => {
-    dispatch(requestTravellers());
+    dispatch(requestPatchDestinations());
     return superagent
     .patch('https://young-beyond-8772.herokuapp.com/travelers/' + id)
     .set({Authorization: "Token token=" + token})
