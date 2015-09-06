@@ -1,11 +1,5 @@
-import fetch from 'isomorphic-fetch';
 import superagent from 'superagent';
 import _ from 'lodash';
-
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const SELECT_REDDIT = 'SELECT_REDDIT';
-export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT';
 
 export const REQUEST_LOGIN = "REQUEST_LOGIN";
 export const RECEIVE_LOGIN = "RECEIVE_LOGIN";
