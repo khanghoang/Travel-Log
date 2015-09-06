@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { ListGroupItem, Input, Button } from 'react-bootstrap';
 
-require('./DestinationListItem.less');
+require("!style!css!less!./DestinationListItem.less");
 
 export default class UserDestinationPanel extends ListGroupItem {
   onCheckVisited() {
@@ -19,12 +19,12 @@ export default class UserDestinationPanel extends ListGroupItem {
     const checked = this.props.destination.visited ? "checked" : "";
 
     return (
-      <div>
+      <li className="destination-item list-group-item">
       <input type='checkbox' disabled={disabled} checked={checked} onChange={this.onCheckVisited.bind(this)}>
       </input>
-      <span className={destinationsClass}>{this.props.destination.name}</span>
+      <span className={"destination-name" + " " + destinationsClass}>{this.props.destination.name}</span>
       {buttonDelete}
-      </div>
+      </li>
     );
   }
 }

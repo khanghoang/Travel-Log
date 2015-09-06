@@ -5,7 +5,7 @@ import {Input, Button, Label} from 'react-bootstrap';
 var React = require('react');
 import { Component, PropTypes } from 'react';
 
-require('./LoginPage.less');
+require("!style!css!less!./LoginPage.less");
 
 class LoginPage extends Component {
   constructor(props) {

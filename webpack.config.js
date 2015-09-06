@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: "style!css!less"
+        loader: "!style!css!less"
       },
       // Needed for the css-loader when [bootstrap-webpack](https://github.com/bline/bootstrap-webpack)
       // loads bootstrap's css.

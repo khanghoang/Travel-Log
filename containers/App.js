@@ -82,6 +82,22 @@ class App extends Component {
     }
   }
 
+  onAddDestination() {
+    var self = this;
+    const {currentUser, travelers, dispatch} = self.props;
+    const destinationName = self.refs.destinationInput.refs.geosuggest.state.userInput;
+    const id = currentUser.id;
+    const token = currentUser.token;
+    let destinations = _.chain(travelers.data)
+    .filter(function(user) {
+      return user.id === id
+    })
+    .first()
+    .value().destinations;
+    destinations.push({name: destinationName})
+    dispatch(callPatchDestinations(token, id, destinations));
+  }
+
   render() {
     const { currentUser, travelers, isLoading} = this.props;
     return (
@@ -98,14 +114,21 @@ class App extends Component {
         isLoading={isLoading}
         currentUser={currentUser}
         />
-        <AutoCompleteCountry />
+        <Button
+        disabled={isLoading}
+        className="add-destination"
+        onClick={!isLoading ? this.onAddDestination.bind(this) : null}>
+        {isLoading ? 'Process' : 'Add'}
+        </Button>
+        <AutoCompleteCountry
+        ref="destinationInput"
+        />
       </div>
     );
   }
 }
 
 App.propTypes = {
-  isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 

@@ -38,6 +38,7 @@
     "less-loader": "^2.2.0",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.1",
+    "react-geosuggest": "^1.8.0",
     "react-hot-loader": "node_modules/react-hot-loader",
     "react-redux": "^1.0.1",
     "redux": "^1.0.1",

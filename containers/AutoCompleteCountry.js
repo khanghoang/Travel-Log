@@ -1,18 +1,32 @@
 var React = require('react');
 import {Component} from 'react';
 import $ from 'jquery';
+var Geosuggest = require('react-geosuggest');
+
+require("!style!css!less!./AutoCompleteCountry.less");
 
 export default class AutoCompleteCountry extends Component {
+
+  getDefaultProps() {
+    return {
+      geosuggest: this.refs.geosuggest
+    }
+  }
 
   componentDidMount() {
   }
 
   render() {
+    let types = ["(cities)"]
     return (
-      <div>
-      <div ref="typeahead" id="remote">
-      <input className="typeahead" type="text" placeholder="Oscar winners for Best Picture" />
-      </div>
+      <div className="auto-complete-country">
+      <Geosuggest
+      placeholder="Start typing!"
+      types={types}
+      ref="geosuggest"
+      onBlur={this.onBlur}
+      onFocus={this.onFocus}
+      />
       </div>
     )
 

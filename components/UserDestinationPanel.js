@@ -3,7 +3,7 @@ import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import _ from "lodash";
 import DestinationListItem from '../components/DestinationListItem';
 
-require("./UserDestinationPanel.less");
+require("!style!css!less!./UserDestinationPanel.less");
 
 export default class UserDestinationPanel extends Component {
 
